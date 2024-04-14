@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FST टीम का विवरण खोजें</title>
+<style>
+/* Add your custom styles here */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    background-image: url('https://drive.google.com/uc?id=1idtGMIO6elKTZM7pakFaug3Qx8T3gx_2');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow-y: scroll; /* Allow vertical scrolling */
+}
+
+.container {
+    max-width: 90%; /* Updated to make it responsive */
+    background-color: rgba(255, 255, 255, 0.8); /* Added transparency for better visibility */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-top: 0;
+}
+
+#result {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.8); /* Added transparency for better visibility */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+}
+
+#result ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#result ul li {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    max-width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>सम्पर्क करें </h1>
+  <div id="result"></div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Fetch data from Google Sheets using Google Sheets API
+    fetch('https://sheets.googleapis.com/v4/spreadsheets/1oqhABLQfm_a8TK_cSLfByiGuSc2zNtPFwswnkyUMxTA/values/Sheet1?key=AIzaSyCSHZDbtkaQgjyAMpCO0pAT-0DIyOLbqdE')
+        .then(response => response.json())
+        .then(data => {
+            const dataTable = data.values;
+
+            // Extract data from columns 27 and 28
+            const names = dataTable.map(row => row[27]);
+            const mobileNumbers = dataTable.map(row => row[28]);
+
+            // Filter out rows where both name and mobile number are present
+            const validDataIndexes = names.reduce((acc, curr, index) => {
+                if (curr && mobileNumbers[index]) {
+                    acc.push(index);
+                }
+                return acc;
+            }, []);
+
+            // Display the filtered data
+            displayData(names, mobileNumbers, validDataIndexes);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    function displayData(names, mobileNumbers, indexes) {
+        const resultDiv = document.getElementById('result');
+        const ul = document.createElement('ul');
+
+        // Display data for valid rows
+        indexes.forEach(index => {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong> </strong> ${names[index]}, <strong> </strong> <a href="tel:${mobileNumbers[index]}">${mobileNumbers[index]}</a>`;
+            ul.appendChild(li);
+        });
+
+        resultDiv.appendChild(ul);
+    }
+});
+</script>
+</body>
+</html>

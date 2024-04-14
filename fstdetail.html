@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FST टीम का विवरण खोजें </title>
+<style>
+/* Add your custom styles here */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    background-image: url('https://drive.google.com/uc?id=1idtGMIO6elKTZM7pakFaug3Qx8T3gx_2');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    background-color: rgba(255, 255, 255, 0.8); /* Added transparency for better visibility */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-top: 0;
+}
+
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+select,
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#result {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.8); /* Added transparency for better visibility */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>FST टीम का विवरण खोजें</h1>
+  <label for="zoneDropdown">विधानसभा क्षेत्र चुनें:</label>
+  <select id="zoneDropdown">
+    <option value="">Select Zone</option>
+  </select>
+  <br>
+  <button onclick="filterData()">विवरण खोजें</button>
+  <div id="result"></div>
+</div>
+
+<script>
+// Function to populate dropdown options
+function populateDropdown(selectId, options) {
+    const selectElement = document.getElementById(selectId);
+    selectElement.innerHTML = '';
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.text = `Select ${selectId}`;
+    selectElement.add(defaultOption);
+
+    options.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option;
+        optionElement.text = option;
+        selectElement.add(optionElement);
+    });
+}
+
+// Function to filter data based on selected values
+function filterData() {
+    const zone = document.getElementById('zoneDropdown').value;
+
+    // Fetch data from Google Sheets using Google Sheets API
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/1oqhABLQfm_a8TK_cSLfByiGuSc2zNtPFwswnkyUMxTA/values/Sheet1?key=AIzaSyCSHZDbtkaQgjyAMpCO0pAT-0DIyOLbqdE`)
+        .then(response => response.json())
+        .then(data => {
+            const dataTable = data.values;
+
+            // Filter data based on selected zone
+            const filteredData = dataTable.filter(row => row[16] === zone);
+
+            // Extract the desired columns (columns 17 and 18)
+            let resultData = '';
+
+            if (filteredData.length > 0) {
+                resultData += '<ul>';
+                filteredData.forEach(row => {
+		    resultData += '<br>';
+                    resultData += `<li>ड्यूटी का समय: ${row[25]}</li>`;
+                    resultData += `<li>अधिकारी का नाम व विवरण : ${row[17]} <a href="tel:${row[18]}">${row[18]}</a> </li>`;
+                    resultData += `<li>पुलिस अधि. / कर्म. का विवरण : ${row[19]} <a href="tel:${row[20]}">${row[20]}</a> </li>`;
+                    resultData += `<li>पुलिस अधि. / कर्म. का विवरण : ${row[21]} <a href="tel:${row[22]}">${row[22]}</a> </li>`;
+                    resultData += `<li>पुलिस अधि. / कर्म. का विवरण : ${row[23]} <a href="tel:${row[24]}">${row[24]}</a> </li>`;
+		    
+                    resultData += '<br>'; // Add gap between each result
+                });
+                resultData += '</ul>';
+            } else {
+                resultData = 'No data found';
+            }
+
+            // Display the result
+            document.getElementById('result').innerHTML = resultData;
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+// Fetch unique values for Zone and populate dropdown
+fetch(`https://sheets.googleapis.com/v4/spreadsheets/1oqhABLQfm_a8TK_cSLfByiGuSc2zNtPFwswnkyUMxTA/values/Sheet1?key=AIzaSyCSHZDbtkaQgjyAMpCO0pAT-0DIyOLbqdE`)
+    .then(response => response.json())
+    .then(data => {
+        const dataTable = data.values;
+
+        const zoneOptions = [...new Set(dataTable.map(row => row[16]))];
+        populateDropdown('zoneDropdown', zoneOptions);
+    })
+    .catch(error => console.error('Error fetching data:', error));
+</script>
+</body>
+</html>
