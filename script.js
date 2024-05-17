@@ -42,13 +42,13 @@ function filterData() {
             // Extract the desired columns
             const resultData = filteredData.length > 0 ?
                 filteredData.map(row =>
-                    `बूथ की लोकेशन: <a href="https://www.google.com/maps/search/?api=1&query=${row[6]}" target="_blank">लोकेशन देखने के लिए क्लिक करें </a><br>
-                     सेक्टर पुलिस अधिकारी का विवरण : ${row[7]} <a href="tel:${row[8]}">${row[8]}</a> <br>
-                     मतदान केंद्र पर लगायें गये पुलिस बल का विवरण : ${row[40]} <a href="tel:${row[41]}">${row[41]}</a> <br>`
+                    `बूथ की लोकेशन:<br> <a href="https://www.google.com/maps/search/?api=1&query=${row[6]}" target="_blank">लोकेशन देखने के लिए क्लिक करें </a><br>
+                     सेक्टर पुलिस अधिकारी का विवरण :<br> ${row[7]} <a href="tel:${row[8]}">${row[8]}</a> <br>
+                     मतदान केंद्र पर लगायें गये पुलिस बल का विवरण :<br> ${row[40]} <a href="tel:${row[41]}">${row[41]}</a> <br>  ${row[42]} <a href="tel:${row[43]}">${row[43]}</a> <br> ${row[44]} <a href="tel:${row[45]}">${row[45]}</a> <br>`
                 ).join('<br><br>') : 'No data found';
 
             // Display the result
-            document.getElementById('result').innerHTML = resultData;
+            document.getElementById('result').innerHTML = resultData; 
         })
         .catch(error => console.error('Error fetching data:', error));
 }
