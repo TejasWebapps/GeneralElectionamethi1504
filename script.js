@@ -44,7 +44,7 @@ function filterData() {
                 filteredData.map(row =>
                     `बूथ की लोकेशन: <a href="https://www.google.com/maps/search/?api=1&query=${row[6]}" target="_blank">लोकेशन देखने के लिए क्लिक करें </a><br>
                      सेक्टर पुलिस अधिकारी का विवरण : ${row[7]} <a href="tel:${row[8]}">${row[8]}</a> <br>
-                     बूथ प्रभारी / अधिकारी का विवरण : ${row[11]} <a href="tel:${row[10]}">${row[10]}</a> <br>`
+                     मतदान केंद्र पर लगायें गये पुलिस बल का विवरण : ${row[40]} <a href="tel:${row[41]}">${row[41]}</a> <br>`
                 ).join('<br><br>') : 'No data found';
 
             // Display the result
