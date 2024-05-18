@@ -1,3 +1,4 @@
+
 // Replace with your Google Sheets URL
 const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1oqhABLQfm_a8TK_cSLfByiGuSc2zNtPFwswnkyUMxTA/edit?usp=sharing';
 
@@ -42,9 +43,9 @@ function filterData() {
             // Extract the desired columns
             const resultData = filteredData.length > 0 ?
                 filteredData.map(row =>
-                    `बूथ की लोकेशन:<br> <a href="https://www.google.com/maps/search/?api=1&query=${row[6]}" target="_blank">लोकेशन देखने के लिए क्लिक करें </a><br>
-                     सेक्टर पुलिस अधिकारी का विवरण :<br> ${row[7]} <a href="tel:${row[8]}">${row[8]}</a> <br>
-                     मतदान केंद्र पर लगायें गये पुलिस बल का विवरण :<br> ${row[40]} <a href="tel:${row[41]}">${row[41]}</a> <br>  ${row[42]} <a href="tel:${row[43]}">${row[43]}</a> <br> ${row[44]} <a href="tel:${row[45]}">${row[45]}</a> <br>`
+                    `<h4 style="color:green;"> <u> मतदान केन्द्र का स्थान :</u> </h4> <a href="https://www.google.com/maps/search/?api=1&query=${row[6]}" target="_blank">मतदान केन्द्र का स्थान देखने के लिए क्लिक करें </a><br>
+                     <h4 style="color:green;"> <u> मतदान केन्द्र पुलिस अधिकारी का विवरण : </u> </h4> ${row[7]} <a href="tel:${row[8]}">${row[8]}</a> <br>
+                    <h4 style="color:green;"> <u> मतदान केंद्र पर लगायें गये पुलिस बल का विवरण : </u>  </h4> <br> ${row[40]} <a href="tel:${row[41]}">${row[41]}</a> <br>  ${row[42]} <a href="tel:${row[43]}">${row[43]}</a> <br> ${row[44]} <a href="tel:${row[45]}">${row[45]}</a> <br>`
                 ).join('<br><br>') : 'No data found';
 
             // Display the result
